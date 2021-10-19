@@ -5,7 +5,7 @@ const jikan = axios.create({
 })
 
 const mangadex = axios.create({
-  baseURL: 'https://api.mangadex.org/manga'
+  baseURL: 'https://api.mangadex.org'
 })
 
 const youtube = axios.create({
