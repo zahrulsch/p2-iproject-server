@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: false }))
 app.get('/animes', Controller.getAnimes)
 app.get('/mangas', Controller.getMangas)
 app.get('/anime', Controller.getAnimeById)
+app.get('/anime-detail/:id', Controller.getAnimeDetail)
 app.get('/manga-author/:id', Controller.getMangaAuthor)
 app.get('/manga-chapters/:id', Controller.getMangaChapters)
 
