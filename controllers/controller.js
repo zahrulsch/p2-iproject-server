@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const { jikan, mangadex, youtube } = require('../apis/axios')
-const MangadexParser = require('../helpers/mangadexParser')
+const MangadexGeneralParser = require('../helpers/mangadexParser')
 
 module.exports = class Controller {
   static async getAnimes(req, res, next) {
@@ -29,17 +29,45 @@ module.exports = class Controller {
         method: 'get'
       })
       const data = response.data.data.map(e => {
-        const parser = new MangadexParser(e)
+        const parser = new MangadexGeneralParser(e)
         return {
           id: parser.id,
           title: parser.title,
           description: parser.description,
           tags: parser.tags,
           status: parser.status,
+          state: parser.state,
           thumbnail: parser.thumbnail
         }
       })
       res.status(200).json(data)
+    } catch (err) {
+      next(err)
+    }
+  }
+  static async getAnimeById(req, res, next) {
+    try {
+      const { id, page } = req.query
+      const response = await jikan({
+        url: `/anime/${id}/episodes/${page}`
+      })
+      res.status(200).json(response.data.episodes)
+    } catch (err) {
+      next(err)
+    }
+  }
+  static async getMangaAuthor(req, res, next) {
+    try {
+      const { id } = req.params
+      const response = await mangadex({
+        url: `/manga/${id}?includes[]=author`
+      })
+      const author = response.data.data.relationships.map(e => {
+        if (e.type === 'author') {
+          return e.attributes.name
+        }
+      }).filter(e => e)
+      res.status(200).json(author[0])
     } catch (err) {
       next(err)
     }

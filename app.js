@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: false }))
 
 app.get('/animes', Controller.getAnimes)
 app.get('/mangas', Controller.getMangas)
+app.get('/anime', Controller.getAnimeById)
+app.get('/manga-author/:id', Controller.getMangaAuthor)
 
 app.use(errorHandler)
 app.listen(PORT, function () {
