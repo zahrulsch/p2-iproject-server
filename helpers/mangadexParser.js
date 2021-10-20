@@ -1,4 +1,4 @@
-class MangadexParser {
+class MangadexGeneralParser {
   constructor (response) {
     this.response = response
   }
@@ -17,6 +17,10 @@ class MangadexParser {
 
   get status () {
     return this.response.attributes.status
+  }
+
+  get state () {
+    return this.response.attributes.state
   }
 
   get tags () {
@@ -40,4 +44,5 @@ class MangadexParser {
   }
 }
 
-module.exports = MangadexParser
+
+module.exports = MangadexGeneralParser
