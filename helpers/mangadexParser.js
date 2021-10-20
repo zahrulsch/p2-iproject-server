@@ -44,5 +44,35 @@ class MangadexGeneralParser {
   }
 }
 
+class MangadexChaptersParser {
+  constructor(resp) {
+    this.resp = resp
+  }
 
-module.exports = MangadexGeneralParser
+  get id() {
+    return this.resp.id
+  }
+
+  get chapters() {
+    return this.resp.attributes.chapter
+  }
+  
+  get title() {
+    return this.resp.attributes.title
+  }
+
+  get lang() {
+    return this.resp.attributes.translatedLanguage
+  }
+
+  get mangaPics() {
+    const hash = this.resp.attributes.hash
+    const baseURL = 'https://uploads.mangadex.org/data'
+    const pics = this.resp.attributes.data.map(e => {
+      return `${baseURL}/${hash}/${e}`
+    })
+    return pics
+  }
+}
+
+module.exports = { MangadexGeneralParser, MangadexChaptersParser }
