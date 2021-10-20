@@ -93,4 +93,15 @@ module.exports = class Controller {
       next(err)
     }
   }
+  static async getAnimeDetail(req, res, next) {
+    try {
+      const { id } = req.params
+      const response = await jikan({
+        url: `/anime/${id}`
+      })
+      res.status(200).json(response.data)
+    } catch (err) {
+      next(err)
+    }
+  }
 }
