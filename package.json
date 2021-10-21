@@ -4,7 +4,7 @@
   "description": "Individual Project - Server",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "start": "node app.js",
     "migrate": "sequelize db:migrate",
     "undo": "sequelize db:migrate:undo:all"
   },
