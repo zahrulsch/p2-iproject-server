@@ -124,4 +124,25 @@ module.exports = class Controller {
       next(err)
     }
   }
+  static async getSingleChapters(req, res, next) {
+    try {
+      const { chapterId } = req.params
+      const response = await mangadex({
+        url: `/chapter/${chapterId}?includes[]=scanlation_group&includes[]=manga&includes[]=user`
+      })
+      const data = response.data.data
+      res.status(200).json({
+        id: data.id,
+        chapter: data.attributes.chapter,
+        title: data.attributes.title,
+        data: data.attributes.data.map(e => {
+          const baseURL = 'https://uploads.mangadex.org/data'
+          const hash = data.attributes.hash
+          return `${baseURL}/${hash}/${e}`
+        })
+      })
+    } catch (err) {
+      next(err)
+    }
+  }
 }

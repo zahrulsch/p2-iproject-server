@@ -16,6 +16,7 @@ app.get('/anime', Controller.getAnimeById)
 app.get('/anime-detail/:id', Controller.getAnimeDetail)
 app.get('/manga-detail/:id', Controller.getMangaDetail)
 app.get('/manga-chapters/:id', Controller.getMangaChapters)
+app.get('/manga-chapter/:chapterId', Controller.getSingleChapters)
 
 app.use(errorHandler)
 app.listen(PORT, function () {
