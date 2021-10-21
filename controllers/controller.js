@@ -56,18 +56,38 @@ module.exports = class Controller {
       next(err)
     }
   }
-  static async getMangaAuthor(req, res, next) {
+  static async getMangaDetail(req, res, next) {
     try {
       const { id } = req.params
       const response = await mangadex({
-        url: `/manga/${id}?includes[]=author`
+        url: `/manga/${id}?includes[]=artist&includes[]=author&includes[]=cover_art`
       })
-      const author = response.data.data.relationships.map(e => {
+      const data = response.data.data
+      const author = data.relationships.map(e => {
         if (e.type === 'author') {
           return e.attributes.name
         }
       }).filter(e => e)
-      res.status(200).json(author[0])
+      const tags = data.attributes.tags.map(e => e.attributes.name.en)
+      const thumbnail = data.relationships.map(e => {
+        if (e.type === 'cover_art') {
+          return e.attributes.fileName
+        }
+      }).filter(el => el)
+      res.status(200).json({
+        author: author[0],
+        title_en: data.attributes.title.en,
+        alt_title: data.attributes.altTitles[0].en,
+        tags: tags,
+        descrition: data.attributes.description,
+        lang: data.attributes.originalLanguage,
+        last_volume: data.attributes.lastVolume,
+        last_chapter: data.attributes.lastChapter,
+        status: data.attributes.status,
+        year: data.attributes.year,
+        state: data.attributes.state,
+        thumbnail: `https://uploads.mangadex.org//covers/${id}/${thumbnail[0]}.512.jpg`
+      })
     } catch (err) {
       next(err)
     }

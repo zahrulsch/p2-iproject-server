@@ -14,7 +14,7 @@ app.get('/animes', Controller.getAnimes)
 app.get('/mangas', Controller.getMangas)
 app.get('/anime', Controller.getAnimeById)
 app.get('/anime-detail/:id', Controller.getAnimeDetail)
-app.get('/manga-author/:id', Controller.getMangaAuthor)
+app.get('/manga-detail/:id', Controller.getMangaDetail)
 app.get('/manga-chapters/:id', Controller.getMangaChapters)
 
 app.use(errorHandler)
